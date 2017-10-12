@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { withGoogleMap, GoogleMap, DirectionsRenderer, Marker, InfoWindow } from 'react-google-maps';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { selectDriver, setMyLocation } from '../actions/index';
+import { selectDriver, setMyLocation, setDriversInfo } from '../actions/index';
 
 const taxi = '../../image/taxi.png';
 const mylocation = '../../image/mylocation.png';
@@ -89,6 +89,7 @@ class DriversMap extends Component {
         });
     this.props.setMyLocation(lat, lng);
     });
+    this.props.setDriversInfo();
   }
 
   componentDidUpdate() {
@@ -121,8 +122,7 @@ class DriversMap extends Component {
   }
 
   markerLocation() {
-      return this.props.DriverInfo.map((info) => {
-        return (
+      return this.props.DriverInfo.map((info) => (
           <Marker
             key={info.id}
             icon={taxi}
@@ -132,14 +132,14 @@ class DriversMap extends Component {
             {info.id === this.state.taxiID && (
               <InfoWindow >
                 <div>
-                  {info.DriverName}
-                  {info.License}
+                  Name: {info.driverName}
+                  <br />
+                  License: {info.license}
                 </div>
               </InfoWindow>
             )}
           </Marker>
-        );
-      });
+        ));
   }
  
 	render() {
@@ -175,11 +175,11 @@ function mapStateToProps(state) {
 		activeDriver: state.activeDriver,
     destination: state.activeDestination,
     DriverInfo: state.info
-	};
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ selectDriver, setMyLocation }, dispatch);
+  return bindActionCreators({ selectDriver, setMyLocation, setDriversInfo }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DriversMap);

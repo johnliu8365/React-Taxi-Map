@@ -39,7 +39,7 @@ class DriverInfo extends Component {
 	}
 
 	function mapDispatchToProps(dispatch) {
-	return bindActionCreators({ selectDriver: selectDriver }, dispatch);
+	return bindActionCreators({ selectDriver }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DriverInfo);
